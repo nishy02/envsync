@@ -3,6 +3,7 @@
 const { Command } = require("commander");
 const program = new Command();
 const axios = require("axios");
+const readline = require("readline-sync");
 const readEnvFile = require("./utils/readEnv");
 const writeEnvFile = require("./utils/writeEnv");
 const { saveToken } = require("./utils/config");
@@ -72,8 +73,10 @@ program
   .command("login")
   .description("Login to EnvSync")
   .action(async () => {
-    const email = "test@gmail.com";
-    const password = "123456";
+    const email = readline.question("Email: ");
+    const password = readline.question("Password: ", {
+      hideEchoBack: true,
+    });
 
     try {
       const res = await axios.post(
