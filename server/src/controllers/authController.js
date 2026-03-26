@@ -8,10 +8,17 @@ exports.register = async (req, res) => {
 
     const hashed = await bcrypt.hash(password, 10);
 
-    const result = await pool.query(
-      "INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING *",
-      [email, hashed]
-    );
+    const userRes = await pool.query(
+        "INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING id",
+        [email, hashed]
+      );
+
+      const userId = userRes.rows[0].id;
+
+      await pool.query(
+        "INSERT INTO projects (name, owner_id) VALUES ($1, $2)",
+        ["Default Project", userId]
+      );
 
     res.json(result.rows[0]);
   } catch (err) {
