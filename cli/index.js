@@ -29,7 +29,7 @@ program
         },
         {
           headers: {
-            Authorization: Bearer ${token},
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -56,7 +56,7 @@ program
         "https://envsync-tqj1.onrender.com/secrets/pull?project_id=1",
         {
           headers: {
-            Authorization: Bearer ${token},
+            Authorization: `Bearer ${token}`,
           },
         }
       );
