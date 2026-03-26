@@ -10,11 +10,9 @@ EnvSync is a full-stack system that allows developers to **securely store, sync,
 * Backend API: https://envsync-tqj1.onrender.com
 
 ---
-## 🧪 Demo Workflow (Try it Yourself)
+## Demo Workflow (Try it Yourself)
 
 Follow these steps to test EnvSync end-to-end:
-
----
 
 ### 1️⃣ Register a New User
 
@@ -24,8 +22,6 @@ Go to the live frontend:
 * Click **Register**
 * Enter email & password
 * Create your account
-
----
 
 ### 2️⃣ Login via CLI
 
@@ -37,8 +33,6 @@ envsync login
 
 Enter the same credentials you used in the UI.
 
----
-
 ### 3️⃣ Create a `.env` File
 
 Inside any project folder:
@@ -48,8 +42,6 @@ API_KEY=123456
 DB_PASSWORD=hello123
 ```
 
----
-
 ### 4️⃣ Push Secrets to Cloud
 
 ```bash
@@ -57,8 +49,6 @@ envsync push
 ```
 
 Secrets are encrypted and stored securely
-
----
 
 ### 5️⃣ Pull Secrets
 
@@ -69,8 +59,6 @@ envsync pull
 ```
 
 ✔ Your `.env` file is restored
-
----
 
 ### 6️⃣ View in Dashboard
 
@@ -155,7 +143,7 @@ envsync pull
 
 ---
 
-## 👩‍💻 Author
+## Author
 
-**Nishat Fatema**
+**Nishat Fatema**<br>
 Computer Science Engineer
