@@ -3,7 +3,18 @@ const { encrypt, decrypt } = require("../utils/encryption");
 
 exports.pushSecrets = async (req, res) => {
   try {
-    const { project_id, secrets } = req.body;
+    const { secrets } = req.body;
+
+    const projectRes = await pool.query(
+      "SELECT id FROM projects WHERE owner_id = $1",
+      [req.user.id]
+    );
+
+    if (projectRes.rows.length === 0) {
+      return res.status(400).json({ msg: "No project found for user" });
+    }
+
+    const project_id = projectRes.rows[0].id;
 
     for (let key in secrets) {
       const encrypted = encrypt(secrets[key]);
@@ -29,7 +40,16 @@ exports.pushSecrets = async (req, res) => {
 
 exports.getSecrets = async (req, res) => {
   try {
-    const { project_id } = req.query;
+    const projectRes = await pool.query(
+      "SELECT id FROM projects WHERE owner_id = $1",
+      [req.user.id]
+    );
+
+    if (projectRes.rows.length === 0) {
+      return res.status(400).json({ msg: "No project found for user" });
+    }
+
+    const project_id = projectRes.rows[0].id;
 
     const result = await pool.query(
       "SELECT key, value_encrypted FROM secrets WHERE project_id = $1",

@@ -24,7 +24,6 @@ program
       const res = await axios.post(
         "https://envsync-tqj1.onrender.com/secrets/push",
         {
-          project_id: 1,
           secrets,
         },
         {
