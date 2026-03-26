@@ -32,6 +32,7 @@ function Login({ onSwitch }) {
       );
       localStorage.setItem("token", res.data.token);
       setBanner({ type: "ok", msg: "Authentication successful. Redirecting…" });
+      window.location.href = "/dashboard";
     } catch (err) {
       setBanner({ type: "fail", msg: err.response?.data?.msg || "Login failed. Check your credentials." });
     } finally {

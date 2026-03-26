@@ -88,3 +88,17 @@ exports.getSecrets = async (req, res) => {
     res.status(500).json({ msg: "Error fetching secrets" });
   }
 };
+
+exports.getLogs = async (req, res) => {
+  try {
+    const logs = await pool.query(
+      "SELECT action, project_id, timestamp FROM audit_logs WHERE user_id = $1 ORDER BY timestamp DESC",
+      [req.user.id]
+    );
+
+    res.json(logs.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Error fetching logs" });
+  }
+};
