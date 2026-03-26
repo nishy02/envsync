@@ -28,7 +28,7 @@ function Logs() {
 
   return (
     <div style={{ padding: "40px", background: "#07090f", minHeight: "100vh", color: "white" }}>
-      <h2>Audit Logs 📜</h2>
+      <h2>Audit Logs</h2>
 
       {logs.length === 0 ? (
         <p>No logs yet</p>

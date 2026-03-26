@@ -8,21 +8,28 @@ exports.register = async (req, res) => {
 
     const hashed = await bcrypt.hash(password, 10);
 
-    const userRes = await pool.query(
-        "INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING id",
-        [email, hashed]
-      );
+    const result = await pool.query(
+      "INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING id",
+      [email, hashed]
+    );
 
-      const userId = userRes.rows[0].id;
+    const userId = result.rows[0].id;
 
-      await pool.query(
-        "INSERT INTO projects (name, owner_id) VALUES ($1, $2)",
-        ["Default Project", userId]
-      );
+    // create default project
+    await pool.query(
+      "INSERT INTO projects (name, owner_id) VALUES ($1, $2)",
+      ["Default Project", userId]
+    );
 
-    res.json(result.rows[0]);
+    res.json({ msg: "User registered successfully" });
+
   } catch (err) {
-    console.error(err);
+    console.error("Register error:", err.message);
+
+    if (err.code === "23505") {
+      return res.status(400).json({ msg: "User already exists" });
+    }
+
     res.status(500).json({ msg: "Error registering user" });
   }
 };
