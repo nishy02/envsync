@@ -4,6 +4,7 @@ const router = express.Router();
 const {
   pushSecrets,
   getSecrets,
+  getLogs,
 } = require("../controllers/secretController");
 
 const auth = require("../middleware/auth");
