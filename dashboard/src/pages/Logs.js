@@ -24,7 +24,7 @@ function Logs() {
     };
 
     fetchLogs();
-    }, [token]);
+  }, [token]);
 
   return (
     <div style={{ padding: "40px", background: "#07090f", minHeight: "100vh", color: "white" }}>

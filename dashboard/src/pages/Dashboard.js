@@ -24,7 +24,7 @@ function Dashboard() {
     };
 
     fetchSecrets();
-    }, [token]);
+  }, [token]);
 
   return (
     <div style={{ padding: "40px", color: "white", background: "#07090f", minHeight: "100vh" }}>
