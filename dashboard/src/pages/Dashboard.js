@@ -23,8 +23,25 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    fetchSecrets();
-  }, []);
+  const fetchSecrets = async () => {
+    try {
+      const res = await axios.get(
+        "https://envsync-tqj1.onrender.com/secrets/pull",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setSecrets(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  fetchSecrets();
+}, [token]);
 
   return (
     <div style={{ padding: "40px", color: "white", background: "#07090f", minHeight: "100vh" }}>

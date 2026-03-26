@@ -23,8 +23,25 @@ function Logs() {
   };
 
   useEffect(() => {
+  const fetchLogs = async () => {
+    try {
+      const res = await axios.get(
+        "https://envsync-tqj1.onrender.com/secrets/logs",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setLogs(res.data);
+        } catch (err) {
+        console.error(err);
+        }
+    };
+
     fetchLogs();
-  }, []);
+    }, [token]);
 
   return (
     <div style={{ padding: "40px", background: "#07090f", minHeight: "100vh", color: "white" }}>
