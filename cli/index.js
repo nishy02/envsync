@@ -15,16 +15,20 @@ program
     try {
       const secrets = readEnvFile();
       const token = getToken();
+      if (!token) {
+        console.log("Please login first using 'envsync login'");
+        return;
+        }
 
       const res = await axios.post(
-        "http://localhost:5000/secrets/push",
+        "https://envsync-tqj1.onrender.com/secrets/push",
         {
           project_id: 1,
           secrets,
         },
         {
           headers: {
-            Authorization: token,
+            Authorization: Bearer ${token},
           },
         }
       );
@@ -48,10 +52,10 @@ program
       }
 
       const res = await axios.get(
-        "http://localhost:5000/secrets/pull?project_id=1",
+        "https://envsync-tqj1.onrender.com/secrets/pull?project_id=1",
         {
           headers: {
-            Authorization: token,
+            Authorization: Bearer ${token},
           },
         }
       );
@@ -73,7 +77,7 @@ program
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/auth/login",
+        "https://envsync-tqj1.onrender.com/auth/login",
         { email, password }
       );
 
