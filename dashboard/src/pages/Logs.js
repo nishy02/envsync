@@ -5,23 +5,6 @@ function Logs() {
   const [logs, setLogs] = useState([]);
   const token = localStorage.getItem("token");
 
-  const fetchLogs = async () => {
-    try {
-      const res = await axios.get(
-        "https://envsync-tqj1.onrender.com/secrets/logs",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      setLogs(res.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   useEffect(() => {
   const fetchLogs = async () => {
     try {
@@ -36,7 +19,7 @@ function Logs() {
 
       setLogs(res.data);
         } catch (err) {
-        console.error(err);
+            console.error(err);
         }
     };
 

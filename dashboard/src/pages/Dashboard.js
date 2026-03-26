@@ -5,43 +5,26 @@ function Dashboard() {
   const [secrets, setSecrets] = useState({});
   const token = localStorage.getItem("token");
 
-  const fetchSecrets = async () => {
-    try {
-      const res = await axios.get(
-        "https://envsync-tqj1.onrender.com/secrets/pull",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      setSecrets(res.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   useEffect(() => {
-  const fetchSecrets = async () => {
-    try {
-      const res = await axios.get(
-        "https://envsync-tqj1.onrender.com/secrets/pull",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+    const fetchSecrets = async () => {
+        try {
+            const res = await axios.get(
+                "https://envsync-tqj1.onrender.com/secrets/pull",
+                {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                }
+            );
+
+            setSecrets(res.data);
+        } catch (err) {
+            console.error(err);
         }
-      );
+    };
 
-      setSecrets(res.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  fetchSecrets();
-}, [token]);
+    fetchSecrets();
+    }, [token]);
 
   return (
     <div style={{ padding: "40px", color: "white", background: "#07090f", minHeight: "100vh" }}>
