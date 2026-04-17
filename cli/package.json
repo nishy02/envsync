@@ -1,21 +1,43 @@
 {
-  "name": "envsync-cli",
+  "name": "@nishy_02/envsync-cli",
   "version": "1.1.0",
-  "description": "Installable EnvSync CLI for secure .env sync and project sharing",
+  "description": "Securely sync and share .env files across projects with encrypted cloud storage",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "envsync": "./index.js"
+    "envsync": "index.js"
   },
   "files": [
     "index.js",
     "utils"
   ],
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "env",
+    "environment",
+    "secrets",
+    "dotenv",
+    "config",
+    "sync",
+    "encryption",
+    "cli",
+    "environment-variables",
+    "secret-management"
+  ],
+  "author": "Nishat Fatema",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nishy02/envsync.git"
+  },
+  "homepage": "https://envsync-iota.vercel.app",
+  "bugs": {
+    "url": "https://github.com/nishy02/envsync/issues"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "dependencies": {
     "axios": "^1.13.6",
     "commander": "^14.0.3",

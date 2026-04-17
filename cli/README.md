@@ -3,7 +3,7 @@
 Install globally:
 
 ```bash
-npm install -g envsync-cli
+npm install -g @nishy_02/envsync-cli
 ```
 
 Use it from any project directory:

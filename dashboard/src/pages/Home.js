@@ -174,6 +174,42 @@ const css = `
 
   .feat-chip-icon { font-size: 14px; }
 
+  /* ── install block ── */
+  .home-install {
+    margin-top: 40px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: #0d1117;
+    border: 1px solid #1e2733;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 12px;
+    color: #00ff88;
+    letter-spacing: 0.04em;
+  }
+
+  .home-install-label {
+    color: #3a4455;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-right: 4px;
+  }
+
+  .home-install-copy {
+    background: none;
+    border: none;
+    color: #3a4455;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 0 0 0 8px;
+    transition: color 0.15s;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .home-install-copy:hover { color: #00ff88; }
+
   /* ── modal overlay ── */
   .modal-overlay {
     position: fixed;
@@ -218,6 +254,13 @@ const css = `
 
 function Home() {
   const [mode, setMode] = useState(null); // "login" | "register" | null
+  const [copied, setCopied] = useState(false);
+
+  function copyInstall() {
+    navigator.clipboard.writeText("npm install -g @nishy_02/envsync-cli");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
 
   return (
     <>
@@ -255,6 +298,14 @@ function Home() {
             <div className="feat-chip"><span className="feat-chip-icon"></span> CLI sync</div>
             <div className="feat-chip"><span className="feat-chip-icon"></span> Team access control</div>
             <div className="feat-chip"><span className="feat-chip-icon"></span> Project namespaces</div>
+          </div>
+
+          <div className="home-install">
+            <span className="home-install-label">install</span>
+            <span>npm install -g @nishy_02/envsync-cli</span>
+            <button className="home-install-copy" onClick={copyInstall} title="Copy">
+              {copied ? "✓" : "⎘"}
+            </button>
           </div>
         </div>
 
