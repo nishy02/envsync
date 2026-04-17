@@ -107,6 +107,20 @@ function Register({ onSwitch }) {
             {errors.password && <div className="field-err">-> {errors.password}</div>}
           </div>
 
+          <div className="field">
+            <div className="field-label"><span className="prompt">$</span> role</div>
+            <div className="input-box" style={{ cursor: "default" }}>
+              <input
+                className="input"
+                type="text"
+                value="owner"
+                readOnly
+                style={{ color: "#00ff88", cursor: "default" }}
+              />
+            </div>
+            <div className="field-err" style={{ color: "#4a5568" }}>-> you will own a default project and can share it with others</div>
+          </div>
+
           <button className="submit" onClick={handleRegister} disabled={loading}>
             {loading ? <><div className="spinner" /> creating account...</> : "-> register"}
           </button>
