@@ -1,7 +1,7 @@
 {
-  "name": "cli",
-  "version": "1.0.0",
-  "description": "",
+  "name": "envsync-cli",
+  "version": "1.1.0",
+  "description": "Installable EnvSync CLI for secure .env sync and project sharing",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,6 +9,10 @@
   "bin": {
     "envsync": "./index.js"
   },
+  "files": [
+    "index.js",
+    "utils"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",

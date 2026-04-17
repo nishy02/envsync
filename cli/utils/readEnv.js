@@ -1,19 +1,23 @@
 const fs = require("fs");
+const path = require("path");
+const dotenv = require("dotenv");
 
-function readEnvFile() {
-  const data = fs.readFileSync(".env", "utf-8");
-
-  const lines = data.split("\n");
-  const result = {};
-
-  lines.forEach((line) => {
-    const [key, value] = line.split("=");
-    if (key && value) {
-      result[key.trim()] = value.trim();
-    }
-  });
-
-  return result;
+function resolveEnvPath(targetPath = ".env") {
+  return path.resolve(process.cwd(), targetPath);
 }
 
-module.exports = readEnvFile;
+function readEnvFile(targetPath = ".env") {
+  const envPath = resolveEnvPath(targetPath);
+
+  if (!fs.existsSync(envPath)) {
+    throw new Error(`No env file found at ${envPath}`);
+  }
+
+  const data = fs.readFileSync(envPath, "utf8");
+  return dotenv.parse(data);
+}
+
+module.exports = {
+  readEnvFile,
+  resolveEnvPath,
+};

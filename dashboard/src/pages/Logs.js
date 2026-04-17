@@ -1,26 +1,24 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../api";
 
 function Logs() {
   const [logs, setLogs] = useState([]);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-  const fetchLogs = async () => {
-    try {
-      const res = await axios.get(
-        "https://envsync-tqj1.onrender.com/secrets/logs",
-        {
+    const fetchLogs = async () => {
+      try {
+        const res = await axios.get(`${API_BASE_URL}/secrets/logs`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
-      );
+        });
 
-      setLogs(res.data);
-        } catch (err) {
-            console.error(err);
-        }
+        setLogs(res.data);
+      } catch (err) {
+        console.error(err);
+      }
     };
 
     fetchLogs();
@@ -34,13 +32,16 @@ function Logs() {
         <p>No logs yet</p>
       ) : (
         logs.map((log, index) => (
-          <div key={index} style={{
-            border: "1px solid #1e2733",
-            padding: "10px",
-            marginBottom: "10px",
-            borderRadius: "6px"
-          }}>
-            <strong>{log.action}</strong> — Project {log.project_id}  
+          <div
+            key={index}
+            style={{
+              border: "1px solid #1e2733",
+              padding: "10px",
+              marginBottom: "10px",
+              borderRadius: "6px",
+            }}
+          >
+            <strong>{log.action}</strong> - Project {log.project_id}
             <br />
             <small>{new Date(log.timestamp).toLocaleString()}</small>
           </div>

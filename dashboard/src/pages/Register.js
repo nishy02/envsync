@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import "./auth.css";
+import API_BASE_URL from "../api";
 
 function Register({ onSwitch }) {
   const [email, setEmail] = useState("");
@@ -20,15 +21,17 @@ function Register({ onSwitch }) {
 
   const handleRegister = async () => {
     const e = validate();
-    if (Object.keys(e).length) { setErrors(e); return; }
+    if (Object.keys(e).length) {
+      setErrors(e);
+      return;
+    }
+
     setErrors({});
     setLoading(true);
     setBanner(null);
+
     try {
-      await axios.post(
-        "https://envsync-tqj1.onrender.com/auth/register",
-        { email, password }
-      );
+      await axios.post(`${API_BASE_URL}/auth/register`, { email, password });
       setBanner({ type: "ok", msg: "Account created successfully. You can now login." });
     } catch (err) {
       setBanner({ type: "fail", msg: err.response?.data?.msg || "Registration failed." });
@@ -49,7 +52,7 @@ function Register({ onSwitch }) {
             <div className="dot dot-y" />
             <div className="dot dot-g" />
           </div>
-          <div className="term-path">envsync — <span>auth/register</span></div>
+          <div className="term-path">envsync - <span>auth/register</span></div>
         </div>
 
         <div className="card">
@@ -62,7 +65,7 @@ function Register({ onSwitch }) {
 
           {banner && (
             <div className={`banner ${banner.type}`}>
-              {banner.type === "ok" ? "✓" : "✗"} {banner.msg}
+              {banner.type === "ok" ? "OK" : "ERR"} {banner.msg}
             </div>
           )}
 
@@ -74,10 +77,13 @@ function Register({ onSwitch }) {
                 type="email"
                 placeholder="you@company.com"
                 value={email}
-                onChange={(e) => { setEmail(e.target.value); setErrors(p => ({ ...p, email: null })); }}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setErrors((prev) => ({ ...prev, email: null }));
+                }}
               />
             </div>
-            {errors.email && <div className="field-err">↳ {errors.email}</div>}
+            {errors.email && <div className="field-err">-> {errors.email}</div>}
           </div>
 
           <div className="field">
@@ -86,20 +92,23 @@ function Register({ onSwitch }) {
               <input
                 className={`input${errors.password ? " err" : ""}`}
                 type={showPw ? "text" : "password"}
-                placeholder="••••••••••••"
+                placeholder="************"
                 value={password}
-                onChange={(e) => { setPassword(e.target.value); setErrors(p => ({ ...p, password: null })); }}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setErrors((prev) => ({ ...prev, password: null }));
+                }}
                 style={{ paddingRight: "60px" }}
               />
               <button className="pw-btn" onClick={() => setShowPw(!showPw)}>
                 {showPw ? "[hide]" : "[show]"}
               </button>
             </div>
-            {errors.password && <div className="field-err">↳ {errors.password}</div>}
+            {errors.password && <div className="field-err">-> {errors.password}</div>}
           </div>
 
           <button className="submit" onClick={handleRegister} disabled={loading}>
-            {loading ? <><div className="spinner" /> creating account…</> : "→ register"}
+            {loading ? <><div className="spinner" /> creating account...</> : "-> register"}
           </button>
 
           <div className="footer-note">

@@ -6,20 +6,45 @@ exports.register = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    if (!email || !password) {
+      return res.status(400).json({ msg: "Email and password are required" });
+    }
+
     const hashed = await bcrypt.hash(password, 10);
 
-    const result = await pool.query(
-      "INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING id",
-      [email, hashed]
-    );
+    const client = await pool.connect();
 
-    const userId = result.rows[0].id;
+    try {
+      await client.query("BEGIN");
 
-    // create default project
-    await pool.query(
-      "INSERT INTO projects (name, owner_id) VALUES ($1, $2)",
-      ["Default Project", userId]
-    );
+      const result = await client.query(
+        "INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING id",
+        [String(email).trim().toLowerCase(), hashed]
+      );
+
+      const userId = result.rows[0].id;
+
+      const projectResult = await client.query(
+        "INSERT INTO projects (name, owner_id) VALUES ($1, $2) RETURNING id",
+        ["Default Project", userId]
+      );
+
+      await client.query(
+        `
+          INSERT INTO project_members (project_id, user_id, role)
+          VALUES ($1, $2, 'owner')
+          ON CONFLICT (project_id, user_id) DO NOTHING
+        `,
+        [projectResult.rows[0].id, userId]
+      );
+
+      await client.query("COMMIT");
+    } catch (err) {
+      await client.query("ROLLBACK");
+      throw err;
+    } finally {
+      client.release();
+    }
 
     res.json({ msg: "User registered successfully" });
 
@@ -38,9 +63,13 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    if (!email || !password) {
+      return res.status(400).json({ msg: "Email and password are required" });
+    }
+
     const result = await pool.query(
-      "SELECT * FROM users WHERE email = $1",
-      [email]
+      "SELECT * FROM users WHERE LOWER(email) = $1",
+      [String(email).trim().toLowerCase()]
     );
 
     if (result.rows.length === 0) {
@@ -61,7 +90,13 @@ exports.login = async (req, res) => {
       { expiresIn: "1d" }
     );
 
-    res.json({ token });
+    res.json({
+      token,
+      user: {
+        id: user.id,
+        email: user.email,
+      },
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ msg: "Error logging in" });

@@ -14,6 +14,9 @@ app.use("/auth", authRoutes);
 const secretRoutes = require("./routes/secretRoutes");
 app.use("/secrets", secretRoutes);
 
+const projectRoutes = require("./routes/projectRoutes");
+app.use("/projects", projectRoutes);
+
 app.get("/", (req, res) => {
   res.send("EnvSync API running");
 });
